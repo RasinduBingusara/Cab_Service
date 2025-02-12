@@ -28,4 +28,10 @@ public class LoginController extends HttpServlet {
             res.sendRedirect("login.jsp?error=" + error);
         }
     }
+
+    public void doGet(HttpServletRequest req, HttpServletResponse res) throws IOException {
+        HttpSession session = req.getSession();
+        session.removeAttribute("user");
+        res.sendRedirect("home.jsp");
+    }
 }
