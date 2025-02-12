@@ -6,6 +6,10 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+
+<%
+    String usertype = request.getParameter("type")!=null? request.getParameter("type"):"customer";
+%>
 <html>
 <head>
     <title>Sign Up</title>
@@ -13,7 +17,16 @@
 <body>
 <%@include file="Top_Navigation_Bar.jsp"%>
     <div class="signup-container">
+        <%
+            if(usertype.equals("driver")){
+                out.print("<h2>Join As a Driver</h2>");
+            }
+            else{
+                out.print("<h2>Sign Up</h2>");
+            }
+        %>
         <form action="signup" method="post" class="signup-form">
+            <input type="hidden" name="usertype" value='<%= usertype%>'>
            <div class="name-group">
                <div class="input-group">
                    <label for="firstname">First Name</label>
@@ -45,6 +58,28 @@
                        name="contactnumber" placeholder="Contact Number..."
                        value='<%= request.getParameter("contactnumber") != null ? request.getParameter("contactnumber"):""%>' required>
             </div>
+            <%
+                if(usertype.equals("driver")){
+            %>
+            <div class="input-group">
+                <label for="nic">NIC</label>
+                <input type="text" id="nic" name="nic" placeholder="Nic..."
+                       value='<%= request.getParameter("nic") != null ? request.getParameter("nic"):""%>' required>
+            </div>
+            <div class="input-group">
+                <label for="driverlicense">Driver License</label>
+                <input type="text" id="driverlicense" name="driverlicense" placeholder="Driver License..."
+                       value='<%= request.getParameter("driverlicense") != null ? request.getParameter("driverlicense"):""%>' required>
+            </div>
+            <div class="input-group">
+                <label for="address">Address</label>
+                <textarea name="address" id="address"  required><%= request.getParameter("address") != null ? request.getParameter("address"):""%></textarea>
+            </div>
+            <%
+                }
+            %>
+
+
             <label class="error-message">
                 <%=
                 request.getParameter("error") != null? request.getParameter("error"):""
@@ -92,7 +127,7 @@
         color: #333;
     }
 
-    .input-group input {
+    .input-group input,.input-group textarea {
         width: 100%;
         padding: 10px;
         border: 1px solid #ccc;
@@ -100,7 +135,7 @@
         font-size: 16px;
     }
 
-    .input-group input:focus {
+    .input-group input:focus, .input-group textarea:focus {
         outline: none;
         border-color: #ffcc00;
         box-shadow: 0 0 5px rgba(255, 204, 0, 0.5);

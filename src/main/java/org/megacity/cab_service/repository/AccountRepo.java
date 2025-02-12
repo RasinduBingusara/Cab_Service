@@ -3,10 +3,7 @@ package org.megacity.cab_service.repository;
 import org.megacity.cab_service.config.DatabaseConnection;
 import org.megacity.cab_service.model.UserAccount;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 
 public class AccountRepo {
 
@@ -29,7 +26,7 @@ public class AccountRepo {
 
     public UserAccount getUserByEmail(String email) {
         String sql = "SELECT * FROM account WHERE email = ?";
-        UserAccount user = new UserAccount();
+        UserAccount user = null;
 
         try (Connection con = DatabaseConnection.connection();
              PreparedStatement statement = con.prepareStatement(sql)) {
@@ -38,11 +35,13 @@ public class AccountRepo {
             try (ResultSet resultSet = statement.executeQuery()) {
 
                 while (resultSet.next()) {
-                    user.setEmail(resultSet.getString("email"));
-                    user.setFirstname(resultSet.getString("firstname"));
-                    user.setLastname(resultSet.getString("lastname"));
-                    user.setPassword(resultSet.getString("password"));
-                    user.setContactNumber(resultSet.getString("contactnumber"));
+                    user = new UserAccount.UserCreator().createExisttingCustomer(
+                            resultSet.getInt("uid"),
+                            resultSet.getString("firstname"),
+                            resultSet.getString("lastname"),
+                            resultSet.getString("email"),
+                            resultSet.getString("password"),
+                            resultSet.getString("contactnumber"));
                 }
             }
 
@@ -53,7 +52,7 @@ public class AccountRepo {
     }
 
     public Boolean addNewUser(UserAccount user) {
-        String sql = "INSERT INTO account (email, firstname, lastname, password, contactnumber, created_at) VALUES (?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO account (email, firstname, lastname, password, contactnumber, user_type, created_at) VALUES (?, ?, ?, ?, ?, ?, now())";
 
         try (Connection con = DatabaseConnection.connection();
              PreparedStatement statement = con.prepareStatement(sql)) {
@@ -63,7 +62,7 @@ public class AccountRepo {
             statement.setString(3, user.getLastname());
             statement.setString(4, user.getPassword());
             statement.setString(5, user.getContactNumber());
-            statement.setString(6, user.getCreatedAt());
+            statement.setString(6, user.getUserType());
 
             int rowsInserted = statement.executeUpdate();
 
@@ -73,5 +72,49 @@ public class AccountRepo {
             throw new RuntimeException("Error inserting user: " + e.getMessage(), e);
         }
 
+    }
+
+    public Boolean addNewDriver(UserAccount user) {
+        String sql = "INSERT INTO account (email, firstname, lastname, password, contactnumber, user_type, created_at) VALUES (?, ?, ?, ?, ?, ?, now())";
+        String driverSql = "INSERT INTO driver (user_id, driver_license, nic, address) VALUES (?, ?, ?, ?)";
+
+        try (Connection con = DatabaseConnection.connection();
+             PreparedStatement statement = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+
+            statement.setString(1, user.getEmail());
+            statement.setString(2, user.getFirstname());
+            statement.setString(3, user.getLastname());
+            statement.setString(4, user.getPassword());
+            statement.setString(5, user.getContactNumber());
+            statement.setString(6, user.getUserType());
+
+            int rowsInserted = statement.executeUpdate();
+
+            int generatedId = -1;
+            if (rowsInserted > 0) {
+                try (ResultSet generatedKeys = statement.getGeneratedKeys()) {
+                    if (generatedKeys.next()) {
+                        generatedId = generatedKeys.getInt(1); // Retrieve the auto-generated key
+                    }
+                }
+            }
+
+            try(Connection con2 = DatabaseConnection.connection();
+                PreparedStatement statement2 = con2.prepareStatement(driverSql)) {
+
+                statement2.setString(1, String.valueOf(generatedId));
+                statement2.setString(2, user.getDriverLicense());
+                statement2.setString(3, user.getNic());
+                statement2.setString(4, user.getAddress());
+
+                rowsInserted = statement2.executeUpdate();
+
+            }
+
+            return rowsInserted > 0;
+
+        } catch (SQLException e) {
+            throw new RuntimeException("Error inserting user: " + e.getMessage(), e);
+        }
     }
 }

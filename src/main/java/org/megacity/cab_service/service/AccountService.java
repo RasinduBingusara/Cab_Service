@@ -4,9 +4,6 @@ import org.megacity.cab_service.model.UserAccount;
 import org.megacity.cab_service.repository.AccountRepo;
 import org.megacity.cab_service.utill.PasswordUtill;
 
-import java.sql.Timestamp;
-import java.time.Instant;
-
 public class AccountService {
 
     public AccountRepo accountRepo = new AccountRepo();
@@ -35,9 +32,9 @@ public class AccountService {
         else{
             String hashedPassword = PasswordUtill.hashPassword(user.getPassword());
             user.setPassword(hashedPassword);
-            Timestamp timestamp = Timestamp.from(Instant.now());
-            user.setCreatedAt(timestamp.toString());
-            return accountRepo.addNewUser(user);
+
+            return user.getUserType().equals("customer")? accountRepo.addNewUser(user):
+                    accountRepo.addNewDriver(user);
         }
     }
 }

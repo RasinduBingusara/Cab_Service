@@ -15,13 +15,27 @@ public class SignupController extends HttpServlet {
 
     public void doPost(HttpServletRequest req, HttpServletResponse res) throws IOException {
 
-        UserAccount userAccount = new UserAccount();
-        userAccount.setEmail(req.getParameter("email"));
-        userAccount.setPassword(req.getParameter("password"));
+        String email = req.getParameter("email");
+        String password = req.getParameter("password");
+        String firstName = req.getParameter("firstname");
+        String lastName = req.getParameter("lastname");
+        String contactNo = req.getParameter("contactnumber");
+        String usertype = req.getParameter("usertype");
         String confirmPassword = req.getParameter("confirmpassword");
-        userAccount.setFirstname(req.getParameter("firstname"));
-        userAccount.setLastname(req.getParameter("lastname"));
-        userAccount.setContactNumber(req.getParameter("contactnumber"));
+        String nic = req.getParameter("nic");
+        String address = req.getParameter("address");
+        String driverLicense = req.getParameter("driverlicense");
+
+        UserAccount userAccount;
+        String returnValue;
+        if(usertype.equals("customer")) {
+            userAccount = new UserAccount.UserCreator(firstName,lastName,email,contactNo,password,usertype).createNewCustomer();
+            returnValue = valueReturnResponse(userAccount);
+        }
+        else{
+            userAccount = new UserAccount.UserCreator(firstName,lastName,email,contactNo,password,usertype).createNewDriver(nic,address,driverLicense);
+            returnValue = valueReturnResponseForDriver(userAccount);
+        }
 
         if(!PasswordUtill.isValidPassword(userAccount.getPassword())) {
             String error = "At least one uppercase letter (A-Z) </br>" +
@@ -30,22 +44,29 @@ public class SignupController extends HttpServlet {
                     "At least one special character </br>" +
                     "Minimum 8 characters in length";
 
-            res.sendRedirect("signup.jsp?error=" + error + valueReturnResponse(userAccount));
+            res.sendRedirect("signup.jsp?error=" + error + returnValue);
         } else if (!userAccount.getPassword().equals(confirmPassword)) {
             String error = "Passwords do not match";
-            res.sendRedirect("signup.jsp?error=" + error + valueReturnResponse(userAccount));
+            res.sendRedirect("signup.jsp?error=" + error + returnValue);
         } else if (accountService.createAccount(userAccount)) {
             res.sendRedirect("login.jsp");
         }
         else{
             String error = "Email already exists";
-            res.sendRedirect("signup.jsp?error=" + error + valueReturnResponse(userAccount));
+            res.sendRedirect("signup.jsp?error=" + error + returnValue);
         }
     }
 
     private String valueReturnResponse(UserAccount userAccount) {
-        String response = "&email=" + userAccount.getEmail() + "&firstname=" + userAccount.getFirstname()
+        String response = "&type=customer" + "&email=" + userAccount.getEmail() + "&firstname=" + userAccount.getFirstname()
                 + "&lastname=" + userAccount.getLastname() + "&contactnumber=" + userAccount.getContactNumber();
+        return response;
+    }
+    private String valueReturnResponseForDriver(UserAccount userAccount) {
+        String response = "&type=driver" + "&email=" + userAccount.getEmail() + "&firstname=" + userAccount.getFirstname()
+                + "&lastname=" + userAccount.getLastname() + "&contactnumber=" + userAccount.getContactNumber()
+                + "&driverlicense=" + userAccount.getDriverLicense() + "&nic=" + userAccount.getNic()
+                + "&address=" + userAccount.getAddress();
         return response;
     }
 }
