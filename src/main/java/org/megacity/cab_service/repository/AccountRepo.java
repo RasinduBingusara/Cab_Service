@@ -35,13 +35,35 @@ public class AccountRepo {
             try (ResultSet resultSet = statement.executeQuery()) {
 
                 while (resultSet.next()) {
-                    user = new UserAccount.UserCreator().createExisttingCustomer(
-                            resultSet.getInt("uid"),
-                            resultSet.getString("firstname"),
-                            resultSet.getString("lastname"),
-                            resultSet.getString("email"),
-                            resultSet.getString("password"),
-                            resultSet.getString("contactnumber"));
+                    switch(resultSet.getString("user_type")){
+                        case "Customer":
+                            user = new UserAccount.UserCreator().createExisttingCustomer(
+                                    resultSet.getInt("uid"),
+                                    resultSet.getString("firstname"),
+                                    resultSet.getString("lastname"),
+                                    resultSet.getString("email"),
+                                    resultSet.getString("password"),
+                                    resultSet.getString("contactnumber"));
+                            break;
+                        case "Driver":
+                            user = getDriverById(new UserAccount.UserCreator().createExisttingCustomer(
+                                    resultSet.getInt("uid"),
+                                    resultSet.getString("firstname"),
+                                    resultSet.getString("lastname"),
+                                    resultSet.getString("email"),
+                                    resultSet.getString("password"),
+                                    resultSet.getString("contactnumber")));
+                            break;
+                        case "Admin":
+                            user = new UserAccount.UserCreator().createExistingAdmin(
+                                    resultSet.getInt("uid"),
+                                    resultSet.getString("email"),
+                                    resultSet.getString("password"),
+                                    resultSet.getString("contactnumber")
+                            );
+                            break;
+                    }
+
                 }
             }
 
@@ -49,6 +71,37 @@ public class AccountRepo {
             throw new RuntimeException("Error checking email existence: " + e.getMessage(), e);
         }
         return user;
+    }
+
+    private UserAccount getDriverById(UserAccount user) {
+        String sql = "SELECT * FROM driver WHERE user_id = ?";
+
+        try (Connection con = DatabaseConnection.connection();
+             PreparedStatement statement = con.prepareStatement(sql)) {
+
+            statement.setString(1, String.valueOf(user.getId()));
+            try (ResultSet resultSet = statement.executeQuery()) {
+
+                while (resultSet.next()) {
+                    return new UserAccount.UserCreator().createExistingDriver(
+                            user.getId(),
+                            user.getFirstname(),
+                            user.getLastname(),
+                            user.getEmail(),
+                            user.getPassword(),
+                            user.getContactNumber(),
+                            resultSet.getString("nic"),
+                            resultSet.getString("address"),
+                            resultSet.getString("driver_license")
+                    );
+
+                }
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException("Error checking email existence: " + e.getMessage(), e);
+        }
+        return null;
     }
 
     public Boolean addNewUser(UserAccount user) {

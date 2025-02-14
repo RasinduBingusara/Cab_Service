@@ -142,6 +142,10 @@ public class UserAccount {
             this.userType = userType;
         }
 
+        public UserAccount defaultUser(int id){
+            this.id=id;
+            return new UserAccount(this);
+        }
 
         public UserAccount createNewCustomer(){
             return new UserAccount(this);
@@ -161,20 +165,30 @@ public class UserAccount {
             this.email = email;
             this.password = password;
             this.contactNumber = contactNumber;
-            this.userType = "customer";
+            this.userType = "Customer";
             return new UserAccount(this);
         }
 
-        public UserAccount createExistingDriver(int id, String firstname, String lastname, String email, String contactNumber, String nic, String address, String driverLicense){
+        public UserAccount createExistingDriver(int id, String firstname, String lastname, String email, String password, String contactNumber, String nic, String address, String driverLicense){
             this.id = id;
             this.firstname = firstname;
             this.lastname = lastname;
             this.email = email;
+            this.password = password;
             this.contactNumber = contactNumber;
             this.nic = nic;
             this.address = address;
             this.driverLicense = driverLicense;
-            this.userType = "driver";
+            this.userType = "Driver";
+            return new UserAccount(this);
+        }
+
+        public UserAccount createExistingAdmin(int id, String email, String password, String contactNumber){
+            this.id = id;
+            this.email = email;
+            this.password = password;
+            this.contactNumber = contactNumber;
+            this.userType = "Admin";
             return new UserAccount(this);
         }
 

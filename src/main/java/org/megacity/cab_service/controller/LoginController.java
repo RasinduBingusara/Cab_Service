@@ -21,7 +21,20 @@ public class LoginController extends HttpServlet {
         if (user != null) {
             HttpSession session = req.getSession();
             session.setAttribute("user", user);
-            res.sendRedirect("home.jsp");
+            switch (user.getUserType()){
+                case "Customer":
+                    System.out.println("Customer logged in");
+                    res.sendRedirect("home.jsp");
+                    break;
+                case "Driver":
+                    System.out.println("Driver logged in");
+                    res.sendRedirect("dashboard_navigator.jsp");
+                    break;
+                case "Admin":
+                    System.out.println("Admin logged in");
+                    res.sendRedirect("admin_dashboard.jsp");
+                    break;
+            }
         }
         else {
             String error = "Invalid Email or Password";
@@ -29,6 +42,7 @@ public class LoginController extends HttpServlet {
         }
     }
 
+    //for logout
     public void doGet(HttpServletRequest req, HttpServletResponse res) throws IOException {
         HttpSession session = req.getSession();
         session.removeAttribute("user");

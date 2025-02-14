@@ -21,4 +21,22 @@
         <servlet-name>signupController</servlet-name>
         <url-pattern>/signup</url-pattern>
     </servlet-mapping>
+
+    <servlet>
+        <servlet-name>vehicleController</servlet-name>
+        <servlet-class>org.megacity.cab_service.controller.VehicleController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>vehicleController</servlet-name>
+        <url-pattern>/vehicles</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>modelController</servlet-name>
+        <servlet-class>org.megacity.cab_service.controller.VehicleModelController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>modelController</servlet-name>
+        <url-pattern>/add-model</url-pattern>
+    </servlet-mapping>
 </web-app>
