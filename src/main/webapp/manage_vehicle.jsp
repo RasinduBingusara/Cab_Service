@@ -22,7 +22,7 @@
     <h1>Manage Vehicles</h1>
 
     <!-- Add Vehicle Button -->
-    <a href="add_vehicle.jsp">
+    <a href="vehicles?action=add">
         <button class="add-vehicle-btn">+ Add Vehicle</button>
     </a>
     <a href="add_model.jsp">

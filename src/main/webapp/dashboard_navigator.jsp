@@ -8,7 +8,7 @@
     </form>
 
     <form action="vehicles" method="get">
-      <input type="hidden" name="id" value="-1">
+      <input type="hidden" name="action" value="view">
       <input type="submit" value="Manage Vehicles">
     </form>
 

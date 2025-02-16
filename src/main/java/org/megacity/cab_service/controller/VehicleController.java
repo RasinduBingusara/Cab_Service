@@ -6,6 +6,9 @@ import jakarta.servlet.http.HttpServletResponse;
 import org.megacity.cab_service.model.UserAccount;
 import org.megacity.cab_service.model.Vehicle;
 import org.megacity.cab_service.model.VehicleModel;
+import org.megacity.cab_service.service.AccountService;
+import org.megacity.cab_service.service.DriverAccService;
+import org.megacity.cab_service.service.VehicleModelService;
 import org.megacity.cab_service.service.VehicleService;
 
 import java.io.IOException;
@@ -13,6 +16,8 @@ import java.io.IOException;
 public class VehicleController extends HttpServlet {
 
     private VehicleService vehicleService = new VehicleService();
+    private VehicleModelService vehicleModelService = new VehicleModelService();
+    private DriverAccService driverAccService = new DriverAccService();
 
     public void doPost(HttpServletRequest req, HttpServletResponse res) throws IOException {
         int model = Integer.parseInt(req.getParameter("model"));
@@ -40,10 +45,14 @@ public class VehicleController extends HttpServlet {
     }
 
     public void doGet(HttpServletRequest req, HttpServletResponse res) throws IOException {
-        String vehicleId = req.getParameter("id");
-        if(vehicleId.equals("-1")){
+        String vehicleRequest = req.getParameter("action");
+        if(vehicleRequest.equals("view")){
             req.setAttribute("VehicleList", vehicleService.getAllVehicles());
             res.sendRedirect("manage_vehicle.jsp");
+        } else if (vehicleRequest.equals("add")) {
+            req.setAttribute("vehicleModels", vehicleModelService.getAllVehicleModels());
+            req.setAttribute("drivers", driverAccService.getAllEmployeeDrivers());
+            res.sendRedirect("add_vehicle.jsp");
         }
     }
 }
