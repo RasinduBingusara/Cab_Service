@@ -55,7 +55,7 @@
                 <option value="Manual">Manual</option>
                 <option value="Automatic">Automatic</option>
             </select>
-            <p><%= request.getParameter("response")%></p>
+            <p><%= request.getParameter("response")!=null? request.getParameter("response"):""%></p>
             <!-- Submit Button -->
             <button type="submit" class="submit-btn">Add Model</button>
         </form>
