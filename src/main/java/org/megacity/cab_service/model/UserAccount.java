@@ -157,6 +157,17 @@ public class UserAccount {
             this.driverLicense = driverLicense;
             return new UserAccount(this);
         }
+        public UserAccount createNewDriver(String firstname, String lastname, String email, String password, String contactNumber, String nic, String address, String driverLicense){
+            this.firstname = firstname;
+            this.lastname = lastname;
+            this.email = email;
+            this.password = password;
+            this.contactNumber = contactNumber;
+            this.nic = nic;
+            this.address = address;
+            this.driverLicense = driverLicense;
+            return new UserAccount(this);
+        }
 
         public UserAccount createExisttingCustomer(int id, String firstname, String lastname, String email, String password, String contactNumber){
             this.id = id;

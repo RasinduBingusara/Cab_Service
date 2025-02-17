@@ -13,6 +13,7 @@
     </form>
 
     <form action="drivers" method="get">
+      <input type="hidden" name="action" value="all">
       <input type="submit" value="Manage Drivers">
     </form>
 

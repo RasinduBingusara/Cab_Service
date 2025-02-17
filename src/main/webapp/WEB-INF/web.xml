@@ -39,4 +39,14 @@
         <servlet-name>modelController</servlet-name>
         <url-pattern>/add-model</url-pattern>
     </servlet-mapping>
+
+    <servlet>
+        <servlet-name>driverController</servlet-name>
+        <servlet-class>org.megacity.cab_service.controller.DriverController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>driverController</servlet-name>
+        <url-pattern>/drivers</url-pattern>
+    </servlet-mapping>
+
 </web-app>

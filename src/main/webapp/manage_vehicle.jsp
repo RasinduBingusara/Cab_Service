@@ -21,7 +21,6 @@
 <div class="content">
     <h1>Manage Vehicles</h1>
 
-    <!-- Add Vehicle Button -->
     <a href="vehicles?action=add">
         <button class="add-vehicle-btn">+ Add Vehicle</button>
     </a>
@@ -29,7 +28,6 @@
         <button class="add-vehicle-btn">+ Add Model</button>
     </a>
 
-    <!-- Vehicle Table -->
     <table class="vehicle-table">
         <thead>
         <tr>
@@ -78,7 +76,6 @@
         margin-bottom: 20px;
     }
 
-    /* Add Vehicle Button */
     .add-vehicle-btn {
         background-color: #ffcc00;
         color: #333;
@@ -95,14 +92,12 @@
         color: #ffcc00;
     }
 
-    /* Vehicle Table */
     .vehicle-table {
         width: 100%;
         border-collapse: collapse;
         margin-top: 20px;
     }
 
-    /* Table Header */
     .vehicle-table thead {
         background-color: #333;
         color: white;
@@ -115,7 +110,6 @@
         border-bottom: 1px solid #ddd;
     }
 
-    /* Status Styling */
     .status {
         font-weight: bold;
     }
@@ -128,7 +122,6 @@
         color: red;
     }
 
-    /* Edit & Delete Buttons */
     .edit-btn, .delete-btn {
         padding: 6px 12px;
         font-size: 14px;
