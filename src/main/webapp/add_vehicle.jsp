@@ -23,7 +23,7 @@
     <div class="content">
         <h1>Add Vehicle</h1>
 
-        <form action="addVehicle" method="post" class="vehicle-form">
+        <form action="vehicles" method="post" class="vehicle-form">
 
             <label for="vehicleModel">Vehicle Model:</label>
             <select id="vehicleModel" name="vehicleModel" required>
@@ -76,7 +76,7 @@
                     %>
                     <tr>
                         <td><input type="radio" name="driver" value='<%= driver.getId()%>'></td>
-                        <td><%= driver.getFirstname() + " " + driver.getLastname()%>></td>
+                        <td><%= driver.getFirstname() + " " + driver.getLastname()%></td>
                         <td><%= driver.getDriverLicense()%></td>
                         <td><%= driver.getNic()%></td>
                     </tr>

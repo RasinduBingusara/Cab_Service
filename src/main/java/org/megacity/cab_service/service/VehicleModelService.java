@@ -18,7 +18,7 @@ public class VehicleModelService {
         return false;
     }
     public List<VehicleModel> getAllVehicleModels() {
-        return null;
+        return vehicleModelRepo.getAllVehicleModels();
     }
     public VehicleModel getVehicleModelById(int id) {
         return null;

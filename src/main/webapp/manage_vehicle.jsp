@@ -1,5 +1,7 @@
 <%@ page import="java.util.List" %>
-<%@ page import="org.megacity.cab_service.model.Vehicle" %><%--
+<%@ page import="org.megacity.cab_service.model.Vehicle" %>
+<%@ page import="org.megacity.cab_service.model.UserAccount" %>
+<%@ page import="org.megacity.cab_service.model.VehicleModel" %><%--
   Created by IntelliJ IDEA.
   User: Rasindu
   Date: 14/02/2025
@@ -10,6 +12,8 @@
 
 <%
     List<Vehicle> vehicleList = (List<Vehicle>) request.getAttribute("VehicleList");
+    List<VehicleModel> models = (List<VehicleModel>) request.getAttribute("vehicleModels");
+    List<UserAccount> drivers = (List<UserAccount>) request.getAttribute("drivers");
 %>
 <html>
 <head>
@@ -54,9 +58,23 @@
 
         %>
         <tr>
-            <td><%= vehicle.getModel()%></td>
-            <td><%= vehicle.getPlate_no()%>></td>
-            <td><%= vehicle.getDriver().getFirstname()%>></td>
+            <td><%
+                for (VehicleModel model : models){
+                    if(model.getModelId() == vehicle.getModel().getModelId()){
+                        out.println(model.getModelName());
+                        break;
+                    }
+                }
+            %></td>
+            <td><%= vehicle.getPlate_no()%></td>
+            <td><%
+                for (UserAccount driver : drivers){
+                    if(driver.getId() == vehicle.getDriver().getId()){
+                        out.println(driver.getFirstname() + " " + driver.getLastname());
+                        break;
+                    }
+                }
+            %></td>
             <td class="status active"><%= vehicle.isAvailability()? "Active":"Inactive"%></td>
             <td>
                 <button class="edit-btn">Edit</button>

@@ -4,6 +4,7 @@
   <ul class="nav-links">
 
     <form action="bookings" method="get">
+      <input type="hidden" name="action" value="view">
       <input type="submit" value="Manage Bookings">
     </form>
 

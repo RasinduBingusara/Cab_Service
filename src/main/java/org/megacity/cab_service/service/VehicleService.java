@@ -1,13 +1,15 @@
 package org.megacity.cab_service.service;
 
 import org.megacity.cab_service.model.Vehicle;
+import org.megacity.cab_service.repository.VehicleRepo;
 
 import java.util.List;
 
 public class VehicleService {
 
+    private VehicleRepo vehicleRepo = new VehicleRepo();
     public boolean addVehicle(Vehicle vehicle) {
-        return false;
+        return vehicleRepo.addVehicle(vehicle);
     }
 
     public boolean removeVehicle(Vehicle vehicle) {
@@ -19,7 +21,7 @@ public class VehicleService {
     }
 
     public List<Vehicle> getAllVehicles() {
-        return null;
+        return vehicleRepo.getAllVehicles();
     }
     public Vehicle getVehicleById(int id) {
         return null;
