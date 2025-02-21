@@ -8,6 +8,7 @@ public class UserInsertDTO {
     private String password;
     private String contactNumber;
     private String status;
+    private static final String userType = "Customer";
 
     public UserInsertDTO(String firstName, String lastName, String email, String password, String contactNumber, String status) {
         this.firstName = firstName;
@@ -40,5 +41,9 @@ public class UserInsertDTO {
 
     public String getStatus() {
         return status;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 }

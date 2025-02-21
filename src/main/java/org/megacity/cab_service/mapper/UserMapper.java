@@ -5,6 +5,15 @@ import org.megacity.cab_service.model.User;
 
 public class UserMapper {
 
+    private static UserMapper INSTANCE;
+
+    public static UserMapper getInstance() {
+        if(INSTANCE == null){
+            INSTANCE = new UserMapper();
+        }
+        return INSTANCE;
+    }
+
     public User toEntity(UserInsertDTO dto){
         User user = new User();
         user.setFirstName(dto.getFirstName());

@@ -10,6 +10,10 @@ public class User {
     private String contactNumber;
     private String userType;
     private String status;
+    private String driverLicense;
+    private String nic;
+    private String address;
+    private String employmentType;
     private String updatedAt;
     private String createdAt;
 
@@ -75,6 +79,38 @@ public class User {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public String getDriverLicense() {
+        return driverLicense;
+    }
+
+    public void setDriverLicense(String driverLicense) {
+        this.driverLicense = driverLicense;
+    }
+
+    public String getNic() {
+        return nic;
+    }
+
+    public void setNic(String nic) {
+        this.nic = nic;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public String getEmploymentType() {
+        return employmentType;
+    }
+
+    public void setEmploymentType(String employmentType) {
+        this.employmentType = employmentType;
     }
 
     public String getUpdatedAt() {

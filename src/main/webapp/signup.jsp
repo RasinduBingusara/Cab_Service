@@ -1,4 +1,4 @@
-<%--
+<%@ page import="org.megacity.cab_service.model.User" %><%--
   Created by IntelliJ IDEA.
   User: Rasindu
   Date: 03/02/2025
@@ -8,7 +8,8 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <%
-    String usertype = request.getParameter("type")!=null? request.getParameter("type"):"customer";
+    String usertype = request.getAttribute("type")!=null? (String) request.getAttribute("type") :"customer";
+    User user = (User) request.getAttribute("user");
 %>
 <html>
 <head>
@@ -31,18 +32,18 @@
                <div class="input-group">
                    <label for="firstname">First Name</label>
                    <input type="text" id="firstname" name="firstname" placeholder="First Name..."
-                          value='<%= request.getParameter("firstname") != null ? request.getParameter("firstname"):""%>' required>
+                          value='<%= user != null ? user.getFirstName():""%>' required>
                </div>
                <div class="input-group">
                    <label for="lastname">Last Name</label>
                    <input type="text" id="lastname" name="lastname" placeholder="Last Name..."
-                          value='<%= request.getParameter("lastname") != null ? request.getParameter("lastname"):""%>' required>
+                          value='<%= user != null ? user.getLastName():""%>' required>
                </div>
            </div>
             <div class="input-group">
                 <label for="email">Email</label>
                 <input type="email" id="email" name="email" placeholder="Email..."
-                       value='<%= request.getParameter("email") != null ? request.getParameter("email"):""%>' required>
+                       value='<%= user != null ? user.getEmail():""%>' required>
             </div>
             <div class="input-group">
                 <label for="password">Password</label>
@@ -56,7 +57,7 @@
                 <label for="contactnumber">Contact Number</label>
                 <input type="text" pattern="\d*" inputmode="numeric" id="contactnumber"
                        name="contactnumber" placeholder="Contact Number..."
-                       value='<%= request.getParameter("contactnumber") != null ? request.getParameter("contactnumber"):""%>' required>
+                       value='<%= user != null ? user.getContactNumber():""%>' required>
             </div>
             <%
                 if(usertype.equals("driver")){
@@ -64,16 +65,16 @@
             <div class="input-group">
                 <label for="nic">NIC</label>
                 <input type="text" id="nic" name="nic" placeholder="Nic..."
-                       value='<%= request.getParameter("nic") != null ? request.getParameter("nic"):""%>' required>
+                       value='<%= user != null ? user.getNic():""%>' required>
             </div>
             <div class="input-group">
                 <label for="driverlicense">Driver License</label>
                 <input type="text" id="driverlicense" name="driverlicense" placeholder="Driver License..."
-                       value='<%= request.getParameter("driverlicense") != null ? request.getParameter("driverlicense"):""%>' required>
+                       value='<%= user != null ? user.getDriverLicense():""%>' required>
             </div>
             <div class="input-group">
                 <label for="address">Address</label>
-                <textarea name="address" id="address"  required><%= request.getParameter("address") != null ? request.getParameter("address"):""%></textarea>
+                <textarea name="address" id="address"  required><%= user != null ? user.getAddress():""%></textarea>
             </div>
             <%
                 }
@@ -82,7 +83,7 @@
 
             <label class="error-message">
                 <%=
-                request.getParameter("error") != null? request.getParameter("error"):""
+                request.getAttribute("error") != null? request.getAttribute("error"):""
                 %>
             </label>
             <p class="login-link">already have an account?<a href="login.jsp">login</a></p>

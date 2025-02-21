@@ -4,12 +4,20 @@ import org.megacity.cab_service.dto.driver_dto.DriverDetailDTO;
 import org.megacity.cab_service.dto.driver_dto.DriverEditDTO;
 import org.megacity.cab_service.dto.driver_dto.DriverInsertDTO;
 import org.megacity.cab_service.dto.driver_dto.DriverResponseDTO;
-import org.megacity.cab_service.model.Driver;
+import org.megacity.cab_service.model.User;
 
 public class DriverMapper {
 
-    public Driver toEntity(DriverInsertDTO dto){
-        Driver driver = new Driver();
+    private static DriverMapper INSTANCE;
+    public static DriverMapper getInstance() {
+        if (INSTANCE == null) {
+            INSTANCE = new DriverMapper();
+        }
+        return INSTANCE;
+    }
+
+    public User toEntity(DriverInsertDTO dto){
+        User driver = new User();
         driver.setFirstName(dto.getFirstName());
         driver.setLastName(dto.getLastName());
         driver.setEmail(dto.getEmail());
@@ -23,7 +31,7 @@ public class DriverMapper {
         return driver;
     }
 
-    public DriverInsertDTO toDriverInsertDto(Driver entity){
+    public DriverInsertDTO toDriverInsertDto(User entity){
         DriverInsertDTO dto = new DriverInsertDTO(
                 entity.getFirstName(),
                 entity.getLastName(),
@@ -39,8 +47,8 @@ public class DriverMapper {
         return dto;
     }
 
-    public Driver toEntity(DriverEditDTO dto){
-        Driver driver = new Driver();
+    public User toEntity(DriverEditDTO dto){
+        User driver = new User();
         driver.setFirstName(dto.getFirstName());
         driver.setLastName(dto.getLastName());
         driver.setEmail(dto.getEmail());
@@ -53,7 +61,7 @@ public class DriverMapper {
         return driver;
     }
 
-    public DriverEditDTO toDriverEditDto(Driver entity){
+    public DriverEditDTO toDriverEditDto(User entity){
         DriverEditDTO dto = new DriverEditDTO(
                 entity.getFirstName(),
                 entity.getLastName(),
@@ -68,8 +76,8 @@ public class DriverMapper {
         return dto;
     }
 
-    public Driver toEntity(DriverDetailDTO dto){
-        Driver driver = new Driver();
+    public User toEntity(DriverDetailDTO dto){
+        User driver = new User();
         driver.setFirstName(dto.getFirstName());
         driver.setLastName(dto.getLastName());
         driver.setEmail(dto.getEmail());
@@ -85,7 +93,7 @@ public class DriverMapper {
         return driver;
     }
 
-    public DriverDetailDTO toDriverDetailDto(Driver entity){
+    public DriverDetailDTO toDriverDetailDto(User entity){
         DriverDetailDTO dto = new DriverDetailDTO(
                 entity.getFirstName(),
                 entity.getLastName(),
@@ -103,8 +111,8 @@ public class DriverMapper {
         return dto;
     }
 
-    public Driver toEntity(DriverResponseDTO dto){
-        Driver driver = new Driver();
+    public User toEntity(DriverResponseDTO dto){
+        User driver = new User();
         driver.setFirstName(dto.getFirstName());
         driver.setLastName(dto.getLastName());
         driver.setEmail(dto.getEmail());
@@ -116,7 +124,7 @@ public class DriverMapper {
         return driver;
     }
 
-    public DriverResponseDTO toDriverResponseDto(Driver entity){
+    public DriverResponseDTO toDriverResponseDto(User entity){
         DriverResponseDTO dto = new DriverResponseDTO(
                 entity.getFirstName(),
                 entity.getLastName(),

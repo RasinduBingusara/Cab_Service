@@ -4,6 +4,11 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import org.megacity.cab_service.dto.user_dto.UserAuthDTO;
+import org.megacity.cab_service.mapper.AdminMapper;
+import org.megacity.cab_service.mapper.DriverMapper;
+import org.megacity.cab_service.mapper.UserMapper;
+import org.megacity.cab_service.model.User;
 import org.megacity.cab_service.model.UserAccount;
 import org.megacity.cab_service.service.AccountService;
 
@@ -17,20 +22,24 @@ public class LoginController extends HttpServlet {
         String email = req.getParameter("email");
         String password = req.getParameter("password");
 
-        UserAccount user = accountService.login(email, password);
+        UserAuthDTO userAuthDTO = new UserAuthDTO(email, password);
+
+        User user = accountService.login(userAuthDTO);
         if (user != null) {
             HttpSession session = req.getSession();
-            session.setAttribute("user", user);
             switch (user.getUserType()){
                 case "Customer":
+                    session.setAttribute("user", user);
                     System.out.println("Customer logged in");
                     res.sendRedirect("home.jsp");
                     break;
                 case "Driver":
+                    session.setAttribute("user", user);
                     System.out.println("Driver logged in");
                     res.sendRedirect("dashboard_navigator.jsp");
                     break;
                 case "Admin":
+                    session.setAttribute("user", user);
                     System.out.println("Admin logged in");
                     res.sendRedirect("admin_dashboard.jsp");
                     break;

@@ -1,4 +1,8 @@
 <%@ page import="org.megacity.cab_service.model.UserAccount" %>
+<%@ page import="org.megacity.cab_service.model.User" %>
+<%
+  User loggedUser = (User) session.getAttribute("user");
+%>
 
 <header>
   <nav>
@@ -10,19 +14,18 @@
       <li><a href="#about">About Us</a></li>
       <li><a href="#contact">Contact</a></li>
       <li><a href="#book">Book Now</a></li>
-      <li><a href="signup.jsp?type=driver">Join as a Driver</a></li>
+      <li><a href="signup?type=driver">Join as a Driver</a></li>
 
       <%
-        UserAccount user = (UserAccount) session.getAttribute("user");
-        if(user == null){
+        if(loggedUser == null){
       %>
       <li><a href="login.jsp">Sign In</a></li>
-      <li><a href="signup.jsp">Sign Up</a></li>
+      <li><a href="signup?type=customer">Sign Up</a></li>
       <%
       } else {
       %>
       <li class="profile-menu">
-        <a href="#"> <%= user.getFirstname() %></a>
+        <a href="#"> <%= loggedUser.getFirstName() %></a>
         <ul class="profile-dropdown">
           <li><a href="profile.jsp">Profile</a></li>
           <form action="login" method="get">

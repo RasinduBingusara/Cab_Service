@@ -12,6 +12,7 @@ public class DriverInsertDTO {
     private String nic;
     private String address;
     private String employmentType;
+    private static final String userType = "Driver";
 
     public DriverInsertDTO(String firstName, String lastName, String email, String password, String contactNumber, String status, String driverLicense, String nic, String address, String employmentType) {
         this.firstName = firstName;
@@ -64,5 +65,8 @@ public class DriverInsertDTO {
 
     public String getEmploymentType() {
         return employmentType;
+    }
+    public void setPassword(String password) {
+        this.password = password;
     }
 }
